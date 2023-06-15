@@ -18,28 +18,28 @@
               <%= dates.first.strftime("%d/%m/%Y") %> au <%= dates.last.strftime("%d/%m/%Y") %> pour garder
             </h3>
             <ul>
-              <% plants.each do |kept_plants| %>
+              <% plants.each do |kept_plant| %>
                 <li>
-                  <%= kept_plants.owned_plant.plant.common_name %>
+                  <%= kept_plant.owned_plant.plant.common_name %>
                 </li>
               <% end %>
             </ul>
-          <%= link_to "Voir les détails des plantes", kept_plants_path(user_id: kept_plants.first.user_id, start_date: dates.first, end_date: dates.last), class: "text-indigo-500 font-semibold" %>
-<%= link_to "Garder les plantes", plant_sittings_path, method: :post, class: "p-4 text-indigo-500 font-semibold", onclick: "event.preventDefault(); document.getElementById('create-plant-sitting-form').submit();" %>
-
-<%= form_tag plant_sittings_path, method: :post, id: "create-plant-sitting-form", style: "display: none;" do %>
-  <%= hidden_field_tag 'plant_sitting[user_id]', current_user.id %>
+            <%= link_to "Voir les détails des plantes", kept_plants_path(user_id: kept_plants.first.user_id, start_date: dates.first, end_date: dates.last), class: "text-indigo-500 font-semibold" %>
+          </div>
+        <% end %>
+        
+<%= form_with url: plant_sittings_path, method: :post, id: "create-plant-sitting-form", style: "display: none;" do |form| %>
+  <%= form.hidden_field :user_id, value: current_user.id %>
   <% @kept_plants.each do |user_id, kept_plants| %>
     <% kept_plants.each do |kept_plant| %>
-      <%= hidden_field_tag 'plant_sitting[kept_plant_ids][]', kept_plant.id %>
+      <%= form.hidden_field 'plant_sitting[kept_plant_ids][]', value: kept_plant.id %>
     <% end %>
   <% end %>
-  <%= submit_tag "Submit" %>
+  <%= form.submit "Garder les plantes" %>
 <% end %>
 
 
-          </div>
-        <% end %>
+        
       </div>
     <% end %>
   <% else %>

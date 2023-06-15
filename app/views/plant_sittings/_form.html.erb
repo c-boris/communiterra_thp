@@ -1,27 +1,21 @@
-<%= form_with(model: plant_sitting) do |form| %>
-  <% if plant_sitting.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(plant_sitting.errors.count, "error") %> prohibited this plant_sitting from being saved:</h2>
+<% if plant_sitting %>
+  <%= form_with(model: plant_sitting) do |form| %>
+    <% if plant_sitting.errors.any? %>
+      <div style="color: red">
+        <h2><%= pluralize(plant_sitting.errors.count, "error") %> prohibited this plant_sitting from being saved:</h2>
 
-      <ul>
-        <% plant_sitting.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
+        <ul>
+          <% plant_sitting.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <!-- Form fields go here -->
+
+    <%= form.submit "Submit" %>
   <% end %>
-
-  <div>
-    <%= form.label :user_id, style: "display: block" %>
-    <%= form.text_field :user_id %>
-  </div>
-
-  <div>
-    <%= form.label :kept_plant_id, style: "display: block" %>
-    <%= form.text_field :kept_plant_id %>
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
+<% else %>
+  <p>No plant sittings available.</p>
 <% end %>
