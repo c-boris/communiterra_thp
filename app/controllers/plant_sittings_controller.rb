@@ -28,19 +28,22 @@ class PlantSittingsController < ApplicationController
 
   # POST /plant_sittings or /plant_sittings.json
   def create
-    @plant_sitting = PlantSitting.create(plant_sitting_params)
-    @plant_sitting.kept_plants << current_user.kept_plants
-
-    respond_to do |format|
-      if @plant_sitting.save
-        format.html { redirect_to plant_sitting_url(@plant_sitting), notice: "Plant sitting was successfully created." }
-        format.json { render :show, status: :created, location: @plant_sitting }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @plant_sitting.errors, status: :unprocessable_entity }
+    @kept_plants.each do |kept_plant|
+      @plantsitting = PlantSitting.new(plant_sitting_params)
+      @plantsitting.kept_plant = kept_plant
+        
+        if @plant_sitting.save
+          format.html { redirect_to plant_sitting_url(@plant_sitting), notice: "Plant sitting was successfully created." }
+          format.json { render :show, status: :created, location: @plant_sitting }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @plant_sitting.errors, status: :unprocessable_entity }
+        end
       end
+
     end
-  end
+  
+  
 
   # PATCH/PUT /plant_sittings/1 or /plant_sittings/1.json
   def update
@@ -73,6 +76,7 @@ class PlantSittingsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def plant_sitting_params
-      params.require(:plant_sitting).permit(:user_id, :kept_plant_id)
-    end    
+      params.require(:plant_sitting).permit(:user_id, :kept_plant_ids => [])
+    end
+    
 end

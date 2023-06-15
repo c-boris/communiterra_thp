@@ -28,10 +28,15 @@
 <%= link_to "Garder les plantes", plant_sittings_path, method: :post, class: "p-4 text-indigo-500 font-semibold", onclick: "event.preventDefault(); document.getElementById('create-plant-sitting-form').submit();" %>
 
 <%= form_tag plant_sittings_path, method: :post, id: "create-plant-sitting-form", style: "display: none;" do %>
-<%= hidden_field_tag 'plant_sitting[user_id]', current_user.id %>
-<%= hidden_field_tag 'plant_sitting[kept_plant_id]', @plantlist_number %>
+  <%= hidden_field_tag 'plant_sitting[user_id]', current_user.id %>
+  <% @kept_plants.each do |user_id, kept_plants| %>
+    <% kept_plants.each do |kept_plant| %>
+      <%= hidden_field_tag 'plant_sitting[kept_plant_ids][]', kept_plant.id %>
+    <% end %>
+  <% end %>
   <%= submit_tag "Submit" %>
 <% end %>
+
 
           </div>
         <% end %>
