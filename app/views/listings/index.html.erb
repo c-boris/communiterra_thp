@@ -30,7 +30,7 @@
                   <% end %>
                 </div>
                 <p class="leading-relaxed mb-4 toggle-description-content">
-                  <%= current_user_listing.description %>
+                  <%= truncate(current_user_listing.description, length: 300) %>
                 </p>
                 <div class="flex border-t border-gray-200 py-2 toggle-details-content">
                   <span class="text-green-primary">Ville</span>
