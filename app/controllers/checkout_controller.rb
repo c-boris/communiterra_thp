@@ -3,7 +3,7 @@ class CheckoutController < ApplicationController
     @delivery_price = current_user.cart.listings.joins(:delivery).sum('deliveries.delivery_price')
     @total = current_user.cart.cart_listings.sum { |cart_listing| cart_listing.listing.price * cart_listing.quantity }
 
-    Stripe.api_key = ENV['SECRET_KEY']
+    Stripe.api_key = Rails.application.credentials.dig(:stripe, :secret_key)
 
     @session = Stripe::Checkout::Session.create(
       payment_method_types: ['card'],

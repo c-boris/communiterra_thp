@@ -90,3 +90,7 @@ gem "stripe", "~> 8.5"
 gem "aws-sdk-s3", "~> 1.126"
 
 gem "whenever", "~> 1.0"
+
+gem "dockerfile-rails", ">= 1.5", :group => :development
+
+gem "redis", "~> 5.0"
